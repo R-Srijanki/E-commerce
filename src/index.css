@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@keyframes fadeSlide {
+  0% { opacity: 0; transform: translate(-50%, -10px); }
+  10%, 90% { opacity: 1; transform: translate(-50%, 0); }
+  100% { opacity: 0; transform: translate(-50%, -10px); }
+}
+.animate-fade-slide {
+  animation: fadeSlide 3s ease-in-out forwards;
+}
