@@ -24,8 +24,8 @@ export default function Cart() {
       <h1 className="text-3xl font-semibold text-center mb-8 font-serif text-gray-800">
         🛒 Shopping Cart
       </h1>
-
-      {cart.items.length === 0 ? (
+      {/*cart empty */}
+      {cart.items.length === 0 ? ( 
         <div className="text-center text-gray-600 mt-10">
           <p className="text-lg">Your cart is empty.</p>
           <Link
@@ -35,7 +35,7 @@ export default function Cart() {
             Continue Shopping
           </Link>
         </div>
-      ) : (
+      ) : ( //display all cart items
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Cart Items Section */}
           <div className="flex flex-col w-full lg:w-3/4 space-y-4">
@@ -70,16 +70,18 @@ export default function Cart() {
             </p>
 
             <div className="flex flex-col gap-3 mt-6">
+              {/*link to checkout page */}
               <Link
                 to="/checkout"
                 className="bg-green-600 text-white text-center py-2 rounded-lg hover:bg-green-700 transition"
               >
                 Proceed to Checkout
               </Link>
+              {/*to clear all cart items */} 
               <button
                 onClick={handlecart}
                 className="bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition"
-              >
+              > 
                 Clear Cart
               </button>
             </div>
