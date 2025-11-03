@@ -4,11 +4,12 @@ import { clearCart } from "../utils/cartSlice";
 import { useNavigate } from "react-router-dom";
 
 export default function Checkout() {
-  const cart = useSelector((store) => store.cart);
-  const dispatch = useDispatch();
+  const cart = useSelector((store) => store.cart); //to get cart details from store
+  const dispatch = useDispatch(); 
   const navigate = useNavigate();
-
+  //states for form details,errors 
   const [formErr, setFormErr] = useState({});
+  //state for message after order placed successfully
   const [successMsg, setSuccessMsg] = useState("");
   const [formData, setFormData] = useState({
     name: "",
@@ -27,17 +28,19 @@ export default function Checkout() {
       total + item.price * (1 - item.discountPercentage / 100) * item.quantity,
     0
   );
+  //variables for shipping,discount,total 
   const shipping = subtotal > 500 ? 0 : 40;
   const discount = subtotal * 0.05;
   const total = subtotal - discount + shipping;
-
+  //on change event on input in form it updates state value
   function handleChange(e) {
     const { id, value } = e.target;
     setFormData((prev) => ({ ...prev, [id]: value.trim() }));
   }
-
+  //to validate form details entered 
   function validateForm() {
     const errors = {};
+    //below are regex for mail, phone, name, text
     const regexMail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const regexPhone = /^\d{10}$/;
     const regexName = /^[A-Za-z]+(?: [A-Za-z]+)*$/;
@@ -51,37 +54,35 @@ export default function Checkout() {
     if (!formData.contact || !regexPhone.test(formData.contact))
       errors.contact = "Enter valid contact number";
     if (!formData.city || !regex.test(formData.city))
-      errors.city = "City is required";
+      errors.city = "Valid City Name is required";
     if (!formData.state || !regex.test(formData.state))
-      errors.state = "State is required";
+      errors.state = "Valid State Name is required";
     if (!formData.pincode || formData.pincode.length !== 6)
       errors.pincode = "Enter valid pincode";
 
     return errors;
   }
-
+  //to handle form on submit event
   function handleForm(e) {
     e.preventDefault();
     const errors = validateForm();
     setFormErr(errors);
+    //if error exits return 
     if (Object.keys(errors).length > 0) return;
 
-  
+  //no error then show message
     setSuccessMsg("✅ Order placed successfully! Redirecting...");
+    //to clear cart action
     dispatch(clearCart());
-
-      // Hide message and navigate after 1.5 seconds
-    
-    
   }
   useEffect(() => {
     if (!successMsg) return; // only run when there's a message
-
+//after 3s return to home page
     const timer = setTimeout(() => {
       setSuccessMsg("");
       navigate("/");
     }, 3000);
-
+//clean-up function
     return () => clearTimeout(timer);
   }, [successMsg, navigate]);
 
@@ -99,7 +100,9 @@ export default function Checkout() {
         <h1 className="text-2xl font-semibold text-gray-800 mb-5">
           🧾 Billing Information
         </h1>
+        {/*form to collect data */}
         <form onSubmit={handleForm} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/*it takes input and on submit it which check error and shows error if exists */}
           <div>
           <input
             type="text"
@@ -176,7 +179,8 @@ export default function Checkout() {
             className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500"
           />
           {formErr.pincode && <p className="text-red-500 text-sm">{formErr.pincode}</p>}
-          </div>
+          {/*select option for payment methods */}
+          </div> 
           <select
             id="cod"
             onChange={handleChange}
@@ -187,7 +191,7 @@ export default function Checkout() {
             <option value="card">Credit / Debit Card</option>
             <option value="upi">UPI / Net Banking</option>
           </select>
-
+        {/*on click it places order if no error exits in form details */}
           <button
             type="submit"
             className="col-span-2 mt-4 bg-green-600 text-white py-2.5 rounded-lg hover:bg-green-700 transition"
@@ -206,6 +210,7 @@ export default function Checkout() {
           <p className="text-gray-600">No items in cart.</p>
         ) : (
           <div>
+            {/*displays all cart items title and quantity added */}
             <ul className="divide-y">
               {cart.items.map((item) => (
                 <li key={item.id} className="flex justify-between py-2 text-gray-700">
@@ -223,7 +228,7 @@ export default function Checkout() {
                 </li>
               ))}
             </ul>
-
+              {/*displays all price,subtotal,discount,shipping details */}
             <hr className="my-4" />
             <p className="flex justify-between">
               <span>Subtotal:</span>

@@ -6,11 +6,11 @@ import { lazy } from "react";
 const CartItem = lazy(()=>import("./CartItem"));
 
 export default function Cart() {
-  const cart = useSelector((store) => store.cart);
+  const cart = useSelector((store) => store.cart); // to get cart details from store
   const dispatch = useDispatch();
-
+ //on click clears cart items using clearcart reducer of cartSlice
   function handlecart() {
-    dispatch(clearCart());
+    dispatch(clearCart()); 
   }
 
   // Calculate subtotal
@@ -49,10 +49,12 @@ export default function Cart() {
             <h2 className="text-xl font-medium mb-4 text-gray-800 border-b pb-2">
               Order Summary
             </h2>
+            {/*items in cart */}
             <p className="flex justify-between mb-2 text-gray-700">
-              <span>Total Items:</span>
+              <span>Total Items:</span> 
               <span className="font-semibold">{cart.total}</span>
             </p>
+             {/*cost of items in cart */}
             <p className="flex justify-between mb-2 text-gray-700">
               <span>Subtotal:</span>
               <span className="font-semibold">₹{subtotal.toFixed(2)}</span>
