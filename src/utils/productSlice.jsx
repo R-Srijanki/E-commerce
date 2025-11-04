@@ -11,7 +11,7 @@ const productSlice=createSlice({
     addProduct: (state, action) => {
       state.products = action.payload.map((ele) => ({
         ...ele,
-        cartQuantity: 0,
+        quantity: 0,
       }));
       state.filteredProducts = state.products; // initialize filtered
     },

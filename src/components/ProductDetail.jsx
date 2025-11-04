@@ -104,7 +104,7 @@ export default function ProductDetail() {
         {added&&<p className="text-green-800 font-bold">Item Added to Cart</p>}
         <button
           onClick={handleAddToCart}
-          className="mt-4 bg-pink-600 text-white px-6 py-2 rounded-full hover:bg-pink-700 transition-colors duration-300"
+          className="cursor-pointer mt-4 bg-pink-600 text-white px-6 py-2 rounded-full hover:bg-pink-700 transition-colors duration-300"
         >
           Add to Cart 🛒
         </button>

@@ -56,7 +56,7 @@ export default function CartItem({ item }) {
         {/*to decrease product quantity by 1 */}
         <button
           onClick={handleDec}
-          className="px-2 py-1 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold transition"
+          className="cursor-pointer px-2 py-1 rounded-md bg-red-300 hover:bg-red-400 text-gray-800 font-semibold transition"
         >
           −
         </button>
@@ -67,7 +67,7 @@ export default function CartItem({ item }) {
          {/*to increase product quantity by 1 */}
         <button
           onClick={handleInc}
-          className="px-2 py-1 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold transition"
+          className="cursor-pointer px-2 py-1 rounded-md bg-blue-300 hover:bg-blue-400 text-gray-800 font-semibold transition"
         >
           +
         </button>
@@ -77,7 +77,7 @@ export default function CartItem({ item }) {
       <div className="mt-3 sm:mt-0">
         <button
           onClick={handleRemove}
-          className="text-red-500 hover:text-red-600 font-medium text-sm underline ml-3 sm:ml-6 transition"
+          className="cursor-pointer text-red-500 hover:text-red-600 font-medium text-sm underline ml-3 sm:ml-6 transition"
         >
           Remove
         </button>

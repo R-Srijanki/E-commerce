@@ -24,7 +24,7 @@ export default function ProductList() {
  }
   if (loading)
     return (
-      <div className="flex justify-center items-center h-[60vh] text-gray-500 text-lg">
+      <div className="flex justify-center items-center h-[60vh] text-gray-700 text-lg">
         Loading products...
       </div>
     );
