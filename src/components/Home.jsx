@@ -81,7 +81,7 @@ export default function Home() {
             </span>
                     <div className="text-center">
                       <h2 className="font-semibold text-lg mb-1 truncate">{item.title}</h2>
-                      <span className="text-sm font-bold flex justify-center" style={{color:item.rating>=4?"green":item.rating>=3?"orange":"red"}}><span className='mb-1 px-1 text-lg'><TiStar/></span> {item.rating}</span>
+                      {/* <span className="text-sm font-bold flex justify-center" style={{color:item.rating>=4?"green":item.rating>=3?"orange":"red"}}><span className='mb-1 px-1 text-lg'><TiStar/></span> {item.rating}</span> */}
                       <div className="flex justify-center gap-2 mt-1">
                         <span className="line-through text-gray-400 text-sm">₹{item.price}</span>
                         <span className="font-bold text-green-600 text-sm">

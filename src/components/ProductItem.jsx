@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { increaseItems } from "../utils/cartSlice";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useState } from "react";
-
+import { TiStar } from "react-icons/ti";
 
 
 export default function ProductItem({ item }) {
@@ -38,7 +38,7 @@ export default function ProductItem({ item }) {
           <h2 className="font-semibold text-lg truncate text-gray-800 hover:text-pink-600 transition-colors">
             {item.title}
           </h2>
-          <p className="text-sm mt-1 font-bold" style={{color:item.rating>=4?"green":item.rating>=3?"orange":"red"}}>⭐ {item.rating}</p>
+          <p className="text-sm mt-1 font-bold flex justify-center" style={{color:item.rating>=4?"green":item.rating>=3?"orange":"red"}}><span className='mb-1 px-1 text-lg'><TiStar/></span> {item.rating}</p>
           <div className="flex justify-center gap-2 mt-2 items-center">
             <span className="line-through text-gray-400 text-sm">₹{item.price}</span>
             <span className="text-green-600 font-semibold text-sm">

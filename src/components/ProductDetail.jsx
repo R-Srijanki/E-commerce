@@ -8,6 +8,7 @@ import { CgProfile } from "react-icons/cg";
 import { useState,useEffect } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { lazy } from "react";
+import { TiStar } from "react-icons/ti";
 const Err=lazy(()=>import("./Err"));
 
 export default function ProductDetail() {
@@ -88,7 +89,7 @@ export default function ProductDetail() {
         </div>
 
         {/* Rating */}
-        <p className="text-sm font-bold" style={{color:data.rating>=4?"green":data.rating>=3?"orange":"red"}}>⭐ {data?.rating} / 5</p>
+        <p className="text-sm font-bold flex" style={{color:data.rating>=4?"green":data.rating>=3?"orange":"red"}}><span className='mb-1 px-1 text-lg'><TiStar/></span> {data?.rating} / 5</p>
 
         {/* Price Section */}
         <div className="flex items-baseline gap-3">
