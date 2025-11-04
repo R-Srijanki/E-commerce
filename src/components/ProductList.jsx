@@ -1,9 +1,10 @@
-import { Link, useParams, useNavigate  } from "react-router-dom";
+import { Link, useParams} from "react-router-dom";
 import useFetchData from "../Hooks/useFetchdata";
-import { lazy,memo,useEffect,useState} from "react";
+import { lazy,memo,useState} from "react";
 import { useSelector } from "react-redux";
 import { IoSearchOutline } from "react-icons/io5";
 
+const Search=lazy(()=>import("./Search"))
 const Err=lazy(()=>import("./Err"));
 const ProductItem = lazy(()=>import("./ProductItem"));
 // Memoized ProductItem to prevent unnecessary re-renders
@@ -11,17 +12,18 @@ const MemoizedProductItem = memo(ProductItem);
  
 export default function ProductList() {
   const { category } = useParams();
-  const navigate = useNavigate();
   const [searchText, setSearchText] = useState("");
+  const [search,setsearch]=useState(false);
   const { products } = useSelector((state) => state.product);
   const { data, loading, error } = useFetchData("https://dummyjson.com/products");
 
    function handleSearch(e) {
+    setsearch(false);
     setSearchText(e.target.value);
   }
  function handleclick(){
   if(searchText.trim()=="") return;
-  navigate(`/search/${searchText}`);
+  setsearch(true);
  }
   if (loading)
     return (
@@ -84,6 +86,8 @@ export default function ProductList() {
           </button>
         </div>
       {/* Category Title */}
+      {search?<Search searchText={searchText}/>:(
+        <div>
       <h1 className="text-center font-serif text-4xl mb-8 mt-2.5 capitalize border-b-2 border-gray-200 inline-block mx-auto">
         {category ? `${category}` : "All Products"}
       </h1>
@@ -96,6 +100,8 @@ export default function ProductList() {
           
         ))}
       </div>
+      </div>
+      )}
     </div>
   );
 }

@@ -26,7 +26,6 @@ const appRouter = createBrowserRouter([
     element: <App />,
     children: [
       { path: '', element: LazyWrapper(Home) },
-      { path: 'search/:searchtext', element: LazyWrapper(Search) },
       { path: 'cart', element: LazyWrapper(Cart) },
       { path: 'productdetail/:id', element: LazyWrapper(ProductDetail) },
       { path: 'category', element: LazyWrapper(ProductList) },

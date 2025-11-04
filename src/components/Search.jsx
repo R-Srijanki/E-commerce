@@ -6,17 +6,16 @@ const ProductItem = lazy(() => import("./ProductItem"));
 const Err=lazy(()=>import('./Err'));
 const MemoizedProductItem = memo(ProductItem);
 
-export default function Search() {
-  const { searchtext } = useParams();
+export default function Search({searchText}) {
   const dispatch=useDispatch();
   const {filteredProducts,products}=useSelector((state)=>state.product);
 
   // Update search query whenever route param changes
   useEffect(() => {
     if (products.length > 0) {
-      dispatch(setSearchQuery(searchtext));
+      dispatch(setSearchQuery(searchText));
     }
-  }, [dispatch, searchtext, products]);
+  }, [dispatch, searchText, products]);
 
 
   if (!products.length)
@@ -30,7 +29,7 @@ export default function Search() {
     <div className="px-4 sm:px-8 py-10 bg-gradient-to-b from-blue-300 via-cyan-200 to-green-200 min-h-screen">
       <div className="text-center mb-10">
         <h2 className="text-2xl font-semibold text-gray-800">
-          Results for "<span className="italic">{searchtext}</span>"
+          Results for "<span className="italic">{searchText}</span>"
         </h2>
         <p className="text-gray-700 mt-1">
           {filteredProducts.length} item
