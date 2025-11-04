@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { memo,useEffect,lazy } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearchQuery } from "../utils/productSlice";

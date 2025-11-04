@@ -10,7 +10,6 @@ const Home = lazy(() => import('./components/Home.jsx'))
 const Cart = lazy(() => import('./components/Cart.jsx'))
 const ProductDetail = lazy(() => import('./components/ProductDetail.jsx'))
 const ProductList = lazy(() => import('./components/ProductList.jsx'))
-const Search = lazy(() => import('./components/Search.jsx'))
 const Checkout = lazy(() => import('./components/Checkout.jsx'))
 
 // Centralized suspense wrapper for consistency
