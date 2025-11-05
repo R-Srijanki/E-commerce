@@ -24,6 +24,12 @@ export default function ProductDetail() {
     if (data?.thumbnail) setMainImg(data.thumbnail);
   }, [data]);
 
+  useEffect(()=>{
+    const timer=setTimeout(()=>{
+      setadded(false);
+    },2000)
+     return () => clearTimeout(timer);
+  },[added])
   //  Now you can conditionally return
   if (loading)
     return (
@@ -101,14 +107,14 @@ export default function ProductDetail() {
         </div>
 
         {/* Add to Cart Button */}
-        {added&&<p className="text-green-800 font-bold">Item Added to Cart</p>}
+        
         <button
           onClick={handleAddToCart}
           className="cursor-pointer mt-4 bg-pink-600 text-white px-6 py-2 rounded-full hover:bg-pink-700 transition-colors duration-300"
         >
           Add to Cart 🛒
         </button>
-
+          {added&&<p className="text-green-800 text-sm font-bold">Item Added to Cart</p>}
         {/* Policy Info */}
         <div className="flex gap-6 items-start mt-6">
           <div className="flex items-center gap-2 text-gray-600">
@@ -171,8 +177,8 @@ export default function ProductDetail() {
         <p className="font-semibold text-gray-800 flex items-center gap-2">
           <CgProfile className="text-gray-600 text-lg" /> {item.reviewerName}
         </p>
-       <p className="font-normal w-fit px-1 rounded-lg text-white" style={{backgroundColor:item.rating >= 4 ? "green": item.rating >= 3? "orange": "red",}}>
-  {item.rating} ⭐</p>
+       <p className="text-sm w-fit px-1 rounded-lg text-white flex" style={{backgroundColor:item.rating >= 4 ? "green": item.rating >= 3? "orange": "red",}}>
+  {item.rating} <span className="mt-[1px] text-amber-300 text-lg"><TiStar/></span></p>
         <p className="text-sm text-gray-500">
           Reviewed on {new Date(item.date).toDateString()}
         </p>
