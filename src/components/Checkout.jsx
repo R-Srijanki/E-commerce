@@ -103,8 +103,8 @@ export default function Checkout() {
         {/*form to collect data */}
         <form onSubmit={handleForm} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/*it takes input and on submit it which check error and shows error if exists */}
-          <div>
-          <input
+          <div>{/*name and error*/}
+          <input 
             type="text"
             placeholder="Full Name"
             id="name"
@@ -114,7 +114,7 @@ export default function Checkout() {
           />
           {formErr.name && <p className="text-red-500 text-sm">{formErr.name}</p>}
           </div>
-          <div>
+          <div>{/*email and error*/}
           <input
             type="email"
             placeholder="Email Address"
@@ -125,7 +125,7 @@ export default function Checkout() {
           />
           {formErr.email && <p className="text-red-500 text-sm">{formErr.email}</p>}
           </div>
-          <div>
+          <div>{/*number and error*/}
           <input
             type="number"
             placeholder="Phone Number"
@@ -136,7 +136,7 @@ export default function Checkout() {
           />
           {formErr.contact && <p className="text-red-500 text-sm">{formErr.contact}</p>}
           </div>
-          <div>
+          <div>{/*address and error*/}
           <input
             type="text"
             placeholder="Address"
@@ -147,7 +147,7 @@ export default function Checkout() {
           />
           {formErr.address && <p className="text-red-500 text-sm">{formErr.address}</p>}
           </div>
-          <div>
+          <div>{/*city and error*/}
           <input
             type="text"
             placeholder="City"
@@ -158,7 +158,7 @@ export default function Checkout() {
           />
           {formErr.city && <p className="text-red-500 text-sm">{formErr.city}</p>}
           </div>
-          <div>
+          <div>{/*state and error*/}
           <input
             type="text"
             placeholder="State"
@@ -169,7 +169,7 @@ export default function Checkout() {
           />
           {formErr.state && <p className="text-red-500 text-sm">{formErr.state}</p>}
           </div>
-          <div>
+          <div>{/*pincode and error*/}
           <input
             type="number"
             placeholder="Pincode"
@@ -180,7 +180,7 @@ export default function Checkout() {
           />
           {formErr.pincode && <p className="text-red-500 text-sm">{formErr.pincode}</p>}
           {/*select option for payment methods */}
-          </div> 
+          </div> {/*payment and error*/}
           <select
             id="cod"
             onChange={handleChange}
