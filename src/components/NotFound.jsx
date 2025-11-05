@@ -1,10 +1,11 @@
 import { useRouteError, Link } from "react-router-dom";
 import { TbFaceIdError } from "react-icons/tb";
-
+//error icon
 export default function NotFound(){
     const err = useRouteError();
+    //to get details about error
   console.error(err); // helpful for debugging
-
+//to deal with wrong url..NotFound component
   return (
     <div className="w-screen h-screen flex flex-col justify-center items-center">
       <h1 className="text-5xl sm:text-8xl font-bold mb-5 flex"><TbFaceIdError/> OOPS!</h1>

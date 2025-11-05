@@ -6,10 +6,12 @@ import { lazy } from 'react';
 import { addProduct } from '../utils/productSlice';
 import { useDispatch } from 'react-redux';
 import { TiStar } from "react-icons/ti";
+//icons for page
+//lazy load for err component
 const Err=lazy(()=>import("./Err"));
 
 export default function Home() {
-  const { data, loading, error } = useFetchData('https://dummyjson.com/products');
+  const { data, loading, error } = useFetchData('https://dummyjson.com/products');//custom hook for api call
   const dispatch=useDispatch();
    // when data is fetched, add to redux store
   useEffect(() => {
@@ -17,12 +19,12 @@ export default function Home() {
       dispatch(addProduct(data.products));
     }
   }, [data, dispatch]);
-
+//to extract top deals from data fetched to display home page
   const crazyDealsProducts = useMemo(() => {
     if (!data?.products) return [];
     return [...data.products].sort((a, b) => b.discountPercentage - a.discountPercentage).slice(0, 5);
   }, [data]);
-
+//to extract top rated products from data fetched by api call
   const topRatedProducts = useMemo(() => {
     if (!data?.products) return [];
     return [...data.products].sort((a, b) => b.rating - a.rating).slice(0, 5);
@@ -50,6 +52,7 @@ export default function Home() {
         ].map((cat) => (
           <div key={cat.name} className="text-center group">
             <Link to={`/category/${cat.name === 'All Categories' ? '' : cat.name.toLowerCase()}`}>
+            {/*lazy loading images */}
               <LazyLoadImage
                 src={cat.img}
                 alt={cat.name}
@@ -73,6 +76,7 @@ export default function Home() {
             <h2 className="text-center font-serif text-3xl mb-6">Top Crazy Deals (Up to 20% OFF)</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 justify-items-center">
               {crazyDealsProducts.map((item) => (
+                //on click displays product details
                 <Link to={`/productdetail/${item.id}`} key={item.id}>
                   <div className="shadow-md w-[220px] bg-white rounded-2xl p-3 hover:shadow-xl transition-transform duration-300 hover:scale-105 relative">
                     <LazyLoadImage src={item.thumbnail} alt={item.title} className="rounded-lg h-[150px] w-full object-cover mb-3" />
@@ -101,9 +105,11 @@ export default function Home() {
             <h2 className="text-center font-serif text-3xl mb-6">Top Rated Products</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 justify-items-center">
               {topRatedProducts.map((item) => (
+                //on click displays product details
                 <Link to={`/productdetail/${item.id}`} key={item.id}>
                   <div className="shadow-md w-[220px] bg-white rounded-2xl p-3 hover:shadow-xl transition-transform duration-300 hover:scale-105">
                     <LazyLoadImage src={item.thumbnail} alt={item.title} className="rounded-lg h-[150px] w-full object-cover mb-3" />
+                    {/*lazy loading image */}
                     <div className="text-center">
                       <h2 className="font-semibold text-lg mb-1 truncate">{item.title}</h2>
                       <span className="text-sm font-bold flex justify-center" style={{color:item.rating>=4?"green":item.rating>=3?"orange":"red"}}><span className='mb-1 px-1 text-lg'><TiStar/></span> {item.rating}</span>
