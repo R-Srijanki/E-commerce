@@ -9,8 +9,8 @@ import { useState } from "react";
 
 
 export default function Header() {
-  const [click,setclick]=useState(false);
-   const totalCartItems = useSelector((store) => store.cart.total);
+  const [click,setclick]=useState(false); //to handle click state
+   const totalCartItems = useSelector((store) => store.cart.total); //fetch total items in cart
 
   return (
     <header className="bg-gray-900 text-white sticky top-0 z-10 shadow-md">
