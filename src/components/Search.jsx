@@ -2,22 +2,24 @@ import { Link} from "react-router-dom";
 import { memo,useEffect,lazy } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearchQuery } from "../utils/productSlice";
+//lazy load components
 const ProductItem = lazy(() => import("./ProductItem"));
 const Err=lazy(()=>import('./Err'));
+//memoize component
 const MemoizedProductItem = memo(ProductItem);
 
 export default function Search({searchText}) {
-  const dispatch=useDispatch();
-  const {filteredProducts,products}=useSelector((state)=>state.product);
+  const dispatch=useDispatch(); //to dispatch action
+  const {filteredProducts,products}=useSelector((state)=>state.product); //filtered products from store
 
-  // Update search query whenever route param changes
+  // Update search query whenever searchText changes
   useEffect(() => {
     if (products.length > 0) {
       dispatch(setSearchQuery(searchText));
     }
   }, [dispatch, searchText, products]);
 
-
+//loading items
   if (!products.length)
     return (
       <div className="flex justify-center items-center min-h-[60vh] text-lg text-gray-700 dark:text-gray-200">
@@ -36,18 +38,17 @@ export default function Search({searchText}) {
           {filteredProducts.length !== 1 ? "s" : ""} found
         </p>
       </div>
-
+    {/*products found then display productitem */}
       {filteredProducts.length > 0 ? (
         <div className="grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-items-center">
           {filteredProducts.map((item) => (
-           
               <MemoizedProductItem item={item} key={item.id}/>
-            
-          ))}
+            ))}
         </div>
       ) : (
         <div className="flex flex-col justify-center items-center min-h-[50vh]">
           <p className="text-xl font-medium">No products found.</p>
+          {/*link for back to home when no products found */}
           <Link
             to="/"
             className="mt-4 px-4 py-2 bg-amber-400 text-black rounded-md hover:bg-amber-500 transition"
