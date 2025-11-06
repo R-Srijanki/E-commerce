@@ -9,17 +9,18 @@ import { useState,useEffect } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { lazy } from "react";
 import { TiStar } from "react-icons/ti";
+//lazy load components
 const Err=lazy(()=>import("./Err"));
 
 export default function ProductDetail() {
- const { id } = useParams();
-  const dispatch = useDispatch();
-  const [added,setadded]=useState(false);
+ const { id } = useParams();//to get id from url
+  const dispatch = useDispatch();//to dispatch action
+  const [added,setadded]=useState(false);//to display message when item added
   const url = "https://dummyjson.com/products";
-  const { data, error, loading } = useFetchData(`${url}/${id}`);
+  const { data, error, loading } = useFetchData(`${url}/${id}`);//to call custom hook 
 
   //  Always call hooks before any return
-  const [mainImg, setMainImg] = useState(data?.thumbnail);
+  const [mainImg, setMainImg] = useState(data?.thumbnail); //for image state
    useEffect(() => {
     if (data?.thumbnail) setMainImg(data.thumbnail);
   }, [data]);
@@ -28,8 +29,8 @@ export default function ProductDetail() {
     const timer=setTimeout(()=>{
       setadded(false);
     },2000)
-     return () => clearTimeout(timer);
-  },[added])
+     return () => clearTimeout(timer);//cleanup function
+  },[added])//to display message for 3 secs
   //  Now you can conditionally return
   if (loading)
     return (
@@ -44,6 +45,7 @@ export default function ProductDetail() {
     );
 
   if (!data) return null;
+  //to dispatch action on click of add to cart button
   function handleAddToCart() { 
     setadded(true);
     dispatch(increaseItems(data)); 
@@ -63,6 +65,7 @@ export default function ProductDetail() {
       {/* Thumbnails Section */}
       <div className="flex gap-3 mt-4 overflow-x-auto">
         {data?.images?.map((item, index) => (
+          //lazy load image
           <LazyLoadImage
             key={index}
             src={item}
@@ -159,6 +162,7 @@ export default function ProductDetail() {
           </ul>
         </div>
        <div className="mt-8 border-t border-gray-300 pt-6">
+        {/*ratings and reviews */}
   <h2 className="text-2xl font-semibold mb-4 text-gray-800">Ratings & Reviews</h2>
 
   <div className="flex items-center gap-2 mb-2">
@@ -169,7 +173,7 @@ export default function ProductDetail() {
   <p className="text-gray-600 mb-4">Customer Reviews</p>
 
   <div className="space-y-4">
-    {data.reviews.map((item, index) => (
+    {data.reviews.map((item, index) => (//displays review line by line
       <div
         key={index}
         className="bg-gray-100 p-4 rounded-lg shadow-sm hover:shadow-md transition-all"
