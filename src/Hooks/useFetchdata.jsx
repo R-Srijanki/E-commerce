@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 
 const useFetchData = (url) => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [data, setData] = useState(null);//state variable for data
+  const [loading, setLoading] = useState(true);//state for loading 
+  const [error, setError] = useState(null);//state for error
 
   useEffect(() => {
     if (!url) return; // ✅ always call hooks, skip fetch safely
@@ -12,18 +12,18 @@ const useFetchData = (url) => {
     setLoading(true);
     setError(null);
     setData(null);
-
+//fetch data by api call
     const fetchData = async () => {
       try {
         const response = await fetch(url);
-        if (!response.ok) {
+        if (!response.ok) {//if no data fetched
           throw new Error("Failed to fetch data");
         }
         const result = await response.json();
         setData(result);
-      } catch (err) {
+      } catch (err) {//if error then store in error state
         setError(err);
-      } finally {
+      } finally {//load false after data fetch success or error
         setLoading(false);
       }
     };
