@@ -4,44 +4,41 @@ import { increaseItems,decreaseItem } from "../utils/cartSlice";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useEffect, useState } from "react";
 import { TiStar } from "react-icons/ti";
-
+//react icon
 
 export default function ProductItem({ item }) {
-  const dispatch = useDispatch();
-  const prod=useSelector((state)=>state.cart.items);
+  const dispatch = useDispatch();//to dispatch action 
+  const prod=useSelector((state)=>state.cart.items); //to access cart items from store
   const discountPrice = item.price * (1 - item.discountPercentage / 100);
-  const [quan,setquan] =useState(0);
+  const [quan,setquan] =useState(0); //to display quantity of item
   useEffect(()=>{
     const found=prod.find((val)=>val.id==item.id);
     setquan(found?.quantity||0);
-  },[item,prod])
+  },[item,prod]) //if item added it is in cart so access quantity from it
+  //to increase cart item on click by dispatching action for first add
   function handleAddToCart(item) {
     dispatch(increaseItems(item))
-   
-   }
+  }
+   //to decrease cart item on click by dispatching action
    function handleDec() {
-     
-       dispatch(decreaseItem(item));
-
-     
-    }
-   
-    function handleInc() {
+     dispatch(decreaseItem(item));
+  }
+   //to increase cart item on click by dispatching action 
+  function handleInc() {
       dispatch(increaseItems(item));
-     
-  
-    }
+  }
    
   return (
     <div className="w-[230px] bg-white shadow-md rounded-2xl p-3 hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between" key={item.id}>
       {/* Product Image */}
       <Link to={`/productdetail/${item.id}`}>
-        <div className="relative overflow-hidden rounded-xl">
+        <div className="relative overflow-hidden rounded-xl"> 
+          {/*lazy load image */}
           <LazyLoadImage
             src={item.thumbnail}
             alt={item.title}
             className="rounded-xl h-[160px] w-full object-cover transition-transform duration-300 hover:scale-110"
-          />
+          />{/*to display discount percent */}
           {item.discountPercentage > 0 && (
             <span className="absolute top-2 left-2 bg-pink-600 text-white text-xs font-semibold px-2 py-1 rounded-full">
               {item.discountPercentage}% OFF
