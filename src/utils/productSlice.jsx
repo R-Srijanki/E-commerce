@@ -1,13 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+//product lice
 const productSlice=createSlice({
     name:"product",
     initialState:{
-        products:[],
+        products:[], //initially products nill  
         filteredProducts:[],
-        searchQuery:"",
+        searchQuery:"",//searchtext variable
     },
     reducers: {
+      //add products into products 
     addProduct: (state, action) => {
       state.products = action.payload.map((ele) => ({
         ...ele,
@@ -15,12 +16,14 @@ const productSlice=createSlice({
       }));
       state.filteredProducts = state.products; // initialize filtered
     },
+    //search text add in variable and filter products based on it
     setSearchQuery: (state, action) => {
       state.searchQuery = action.payload;
       state.filteredProducts = state.products.filter((item) =>
         item.title.toLowerCase().includes(action.payload.toLowerCase())
       );
     },
+    //clear search
     clearSearch: (state) => {
       state.searchQuery = "";
       state.filteredProducts = state.products;
