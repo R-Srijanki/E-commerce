@@ -3,7 +3,7 @@ import useFetchData from "../Hooks/useFetchdata";
 import { lazy,memo,useEffect,useState} from "react";
 import { useSelector } from "react-redux";
 import { IoSearchOutline } from "react-icons/io5";
-
+//lazy load components
 const Search=lazy(()=>import("./Search"))
 const Err=lazy(()=>import("./Err"));
 const ProductItem = lazy(()=>import("./ProductItem"));
@@ -11,35 +11,37 @@ const ProductItem = lazy(()=>import("./ProductItem"));
 const MemoizedProductItem = memo(ProductItem);
  
 export default function ProductList() {
-  const { category } = useParams();
-  const [searchText, setSearchText] = useState("");
-  const { products } = useSelector((state) => state.product);
+  const { category } = useParams();//to get category
+  const [searchText, setSearchText] = useState(""); //for searchtext state
+  const { products } = useSelector((state) => state.product);//to get product from store
   const { data, loading, error } = useFetchData("https://dummyjson.com/products");
-
-   function handleSearch(e) {
+  //to handle input change
+  function handleSearch(e) {
     setSearchText(e.target.value);
   }
+  //on click search
  function handleclick(){
   if(searchText.trim()=="")  return;
  }
+ //if data is not yet ready show loading
   if (loading)
     return (
       <div className="flex justify-center items-center h-[60vh] text-gray-700 text-lg">
         Loading products...
       </div>
     );
-
+//error in fetching
   if (error)
     return (
       <Err/>
     );
-
+//to filter products based on category
   const productsToShow = category
     ? products.filter(
         (item) => item.category.toLowerCase() === category.toLowerCase()
       )
     :products;
-
+//no products of specific category 
   if (!productsToShow?.length)
     return (
       <div className="min-h-screen text-center bg-gradient-to-b from-blue-300 via-cyan-200 to-green-300">
@@ -67,7 +69,7 @@ export default function ProductList() {
         </Link>
       </div>
     );
-
+//to handle for products display
   return (
     <div className="min-h-screen px-6 py-10 bg-gradient-to-b from-blue-300 via-cyan-200 to-green-300">
        {/* Search Bar */}
