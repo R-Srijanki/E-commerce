@@ -35,7 +35,7 @@ export default function Checkout() {
   //on change event on input in form it updates state value
   function handleChange(e) {
     const { id, value } = e.target;
-    setFormData((prev) => ({ ...prev, [id]: value.trim() }));
+    setFormData((prev) => ({ ...prev, [id]: value }));
   }
   //to validate form details entered 
   function validateForm() {
@@ -46,18 +46,18 @@ export default function Checkout() {
     const regexName = /^[A-Za-z]+(?: [A-Za-z]+)*$/;
     const regex = /^[A-Za-z]+$/;
 
-    if (!formData.name || !regexName.test(formData.name))
+    if (!formData.name.trim() || !regexName.test(formData.nametrim()))
       errors.name = "Enter valid name";
-    if (!formData.email || !regexMail.test(formData.email))
+    if (!formData.email.trim() || !regexMail.test(formData.emailtrim()))
       errors.email = "Enter valid email";
-    if (!formData.address) errors.address = "Address is required";
-    if (!formData.contact || !regexPhone.test(formData.contact))
+    if (!formData.address.trim()) errors.address = "Address is required";
+    if (!formData.contact.trim() || !regexPhone.test(formData.contact))
       errors.contact = "Enter valid contact number";
-    if (!formData.city || !regex.test(formData.city))
+    if (!formData.city.trim() || !regex.test(formData.city.trim()))
       errors.city = "Valid City Name is required";
-    if (!formData.state || !regex.test(formData.state))
+    if (!formData.state.trim() || !regex.test(formData.state.trim()))
       errors.state = "Valid State Name is required";
-    if (!formData.pincode || formData.pincode.length !== 6)
+    if (!formData.pincode.trim() || formData.pincode.trim().length !== 6)
       errors.pincode = "Enter valid pincode";
 
     return errors;
@@ -85,7 +85,7 @@ export default function Checkout() {
 //clean-up function
     return () => clearTimeout(timer);
   }, [successMsg, navigate]);
-
+  
   return (
     <>
     {/* ✅ Floating success message */}
@@ -94,7 +94,7 @@ export default function Checkout() {
           {successMsg}
         </div>
     )}
-    <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col lg:flex-row gap-10">
+    <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col lg:flex-row gap-10 min-h-screen overflow-auto">
       {/* Billing Form */}
       <div className="w-full lg:w-2/3 bg-white shadow-md rounded-2xl p-6 border border-gray-100">
         <h1 className="text-2xl font-semibold text-gray-800 mb-5">
@@ -103,84 +103,113 @@ export default function Checkout() {
         {/*form to collect data */}
         <form onSubmit={handleForm} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/*it takes input and on submit it which check error and shows error if exists */}
-          <div>{/*name and error*/}
-          <input 
-            type="text"
-            placeholder="Full Name"
-            id="name"
-            onChange={handleChange}
-            value={formData.name}
-            className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500"
-          />
-          {formErr.name && <p className="text-red-500 text-sm">{formErr.name}</p>}
-          </div>
-          <div>{/*email and error*/}
-          <input
-            type="email"
-            placeholder="Email Address"
-            id="email"
-            onChange={handleChange}
-            value={formData.email}
-            className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500"
-          />
-          {formErr.email && <p className="text-red-500 text-sm">{formErr.email}</p>}
-          </div>
-          <div>{/*number and error*/}
-          <input
-            type="number"
-            placeholder="Phone Number"
-            id="contact"
-            onChange={handleChange}
-            value={formData.contact}
-            className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500"
-          />
-          {formErr.contact && <p className="text-red-500 text-sm">{formErr.contact}</p>}
-          </div>
-          <div>{/*address and error*/}
-          <input
-            type="text"
-            placeholder="Address"
-            id="address"
-            onChange={handleChange}
-            value={formData.address}
-            className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500"
-          />
-          {formErr.address && <p className="text-red-500 text-sm">{formErr.address}</p>}
-          </div>
-          <div>{/*city and error*/}
-          <input
-            type="text"
-            placeholder="City"
-            id="city"
-            onChange={handleChange}
-            value={formData.city}
-            className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500"
-          />
-          {formErr.city && <p className="text-red-500 text-sm">{formErr.city}</p>}
-          </div>
-          <div>{/*state and error*/}
-          <input
-            type="text"
-            placeholder="State"
-            id="state"
-            onChange={handleChange}
-            value={formData.state}
-            className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500"
-          />
-          {formErr.state && <p className="text-red-500 text-sm">{formErr.state}</p>}
-          </div>
-          <div>{/*pincode and error*/}
-          <input
-            type="number"
-            placeholder="Pincode"
-            id="pincode"
-            onChange={handleChange}
-            value={formData.pincode}
-            className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500"
-          />
-          {formErr.pincode && <p className="text-red-500 text-sm">{formErr.pincode}</p>}
-          {/*select option for payment methods */}
-          </div> {/*payment and error*/}
+         {/* Name */}
+            <div className="flex flex-col">
+              <label htmlFor="name" className="mb-1 text-sm font-medium text-gray-700">
+                Full Name
+              </label>
+              <input
+                id="name"
+                type="text"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Full Name"
+                className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500"
+              />
+              {formErr.name && <p className="text-red-500 text-sm">{formErr.name}</p>}
+            </div>
+          {/* Email */}
+            <div className="flex flex-col">
+              <label htmlFor="email" className="mb-1 text-sm font-medium text-gray-700">
+                Email Address
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Email"
+                className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500"
+              />
+              {formErr.email && <p className="text-red-500 text-sm">{formErr.email}</p>}
+            </div>
+          {/* Contact */}
+            <div className="flex flex-col">
+              <label htmlFor="contact" className="mb-1 text-sm font-medium text-gray-700">
+                Phone Number
+              </label>
+              <input
+                id="contact"
+                type="number"
+                value={formData.contact}
+                onChange={handleChange}
+                placeholder="10-digit phone"
+                className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500"
+              />
+              {formErr.contact && <p className="text-red-500 text-sm">{formErr.contact}</p>}
+            </div>
+           {/* Address */}
+            <div className="flex flex-col">
+              <label htmlFor="address" className="mb-1 text-sm font-medium text-gray-700">
+                Address
+              </label>
+              <input
+                id="address"
+                type="text"
+                value={formData.address}
+                onChange={handleChange}
+                placeholder="Address"
+                className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500"
+              />
+              {formErr.address && <p className="text-red-500 text-sm">{formErr.address}</p>}
+            </div>
+          {/* City */}
+            <div className="flex flex-col">
+              <label htmlFor="city" className="mb-1 text-sm font-medium text-gray-700">
+                City
+              </label>
+              <input
+                id="city"
+                type="text"
+                value={formData.city}
+                onChange={handleChange}
+                placeholder="City"
+                className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500"
+              />
+              {formErr.city && <p className="text-red-500 text-sm">{formErr.city}</p>}
+            </div>
+           {/* State */}
+            <div className="flex flex-col">
+              <label htmlFor="state" className="mb-1 text-sm font-medium text-gray-700">
+                State
+              </label>
+              <input
+                id="state"
+                type="text"
+                value={formData.state}
+                onChange={handleChange}
+                placeholder="State"
+                className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500"
+              />
+              {formErr.state && <p className="text-red-500 text-sm">{formErr.state}</p>}
+            </div>
+
+          {/* Pincode */}
+            <div className="flex flex-col">
+              <label htmlFor="pincode" className="mb-1 text-sm font-medium text-gray-700">
+                Pincode
+              </label>
+              <input
+                id="pincode"
+                type="number"
+                value={formData.pincode}
+                onChange={handleChange}
+                placeholder="6-digit Pincode"
+                className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500"
+              />
+              {formErr.pincode && <p className="text-red-500 text-sm">{formErr.pincode}</p>}
+            </div>
+          {/*payment and error*/}
           <select
             id="cod"
             onChange={handleChange}
@@ -192,12 +221,13 @@ export default function Checkout() {
             <option value="upi">UPI / Net Banking</option>
           </select>
         {/*on click it places order if no error exits in form details */}
-          <button
-            type="submit"
-            className="col-span-2 mt-4 bg-green-600 text-white py-2.5 rounded-lg hover:bg-green-700 transition"
-          >
-            Place Order
-          </button>
+         {/* Submit Button */}
+            <button
+              type="submit"
+              className="col-span-1 sm:col-span-2 bg-green-600 text-white py-2.5 rounded-lg hover:bg-green-700 transition"
+            >
+              Place Order
+            </button>
         </form>
       </div>
 

@@ -16,11 +16,13 @@ export default function CartItem({ item }) {
   }
   //removes product from cart 
   function handleRemove() {
+    if (window.confirm(`Remove "${item.title}" from cart?`)) {
     dispatch(removeItems(item));
+  }
   }
 
   return (
-    <div className="flex flex-col sm:flex-row items-center justify-betweenshadow-md rounded-xl p-4 border border-gray-100 hover:shadow-lg transition bg-gradient-to-r from-blue-300 via-cyan-200 to-green-300">
+    <div className="flex flex-col sm:flex-row items-center justify-between shadow-md rounded-xl p-4 border border-gray-100 hover:shadow-lg hover:scale-[1.01] transition-transform bg-gradient-to-r from-blue-300 via-cyan-200 to-green-300">
       {/* Product Image */}
       <div className="w-32 h-32 flex items-center justify-center overflow-hidden rounded-lg bg-gray-50">
        {/*lazy load images */} 
@@ -51,6 +53,7 @@ export default function CartItem({ item }) {
         </p>
       </div>
 
+    <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6 mt-3 sm:mt-0">
       {/* Quantity Controls */}
       <div className="flex items-center gap-2 mt-3 sm:mt-0">
         {/*to decrease product quantity by 1 */}
@@ -81,6 +84,7 @@ export default function CartItem({ item }) {
         >
           Remove
         </button>
+      </div>
       </div>
     </div>
   );

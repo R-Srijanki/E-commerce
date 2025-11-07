@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { clearCart } from "../utils/cartSlice";
-import { lazy } from "react";
+import { lazy,useMemo,useEffect,Suspense } from "react";
 
 const CartItem = lazy(()=>import("./CartItem"));
 
@@ -10,14 +10,15 @@ export default function Cart() {
   const dispatch = useDispatch();
  //on click clears cart items using clearcart reducer of cartSlice
   function handlecart() {
-    dispatch(clearCart()); 
+    if (window.confirm("Are you sure you want to clear the cart?")) {
+    dispatch(clearCart());}
   }
-
+  useEffect(() => {
+  document.title = "Your Cart | ShoppyGlobe";}, []);
   // Calculate subtotal
-  const subtotal = cart.items.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
+  const subtotal = useMemo(
+  () => cart.items.reduce((total, item) => total + item.price * item.quantity, 0),
+  [cart.items]);
 
   return (
     <div className="max-w-6xl mx-auto py-10 px-4 sm:px-6 lg:px-8 min-h-screen">
@@ -27,11 +28,8 @@ export default function Cart() {
       {/*cart empty */}
       {cart.items.length === 0 ? ( 
         <div className="text-center text-gray-600 mt-10">
-          <p className="text-lg">Your cart is empty.</p>
-          <Link
-            to="/"
-            className="mt-4 inline-block px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-          >
+          <p className="text-lg">🛒 Your cart is empty.</p>
+          <Link to="/" className="mt-4 inline-block px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
             Continue Shopping
           </Link>
         </div>
@@ -39,9 +37,11 @@ export default function Cart() {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Cart Items Section */}
           <div className="flex flex-col w-full lg:w-3/4 space-y-4">
+           <Suspense fallback={<div className="text-center text-gray-500">Loading cart...</div>}>
             {cart.items.map((item) => (
               <CartItem key={item.id} item={item} />
             ))}
+            </Suspense>
           </div>
 
           {/* Cart Summary Section */}
