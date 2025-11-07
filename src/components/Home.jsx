@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useMemo } from 'react';
-import useFetchData from '../Hooks/useFetchdata';
+import useFetchData from '../Hooks/useFetchData';
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { lazy } from 'react';
 import { addProduct } from '../utils/productSlice';
@@ -13,6 +13,13 @@ const Err=lazy(()=>import("./Err"));
 export default function Home() {
   const { data, loading, error } = useFetchData('https://dummyjson.com/products');//custom hook for api call
   const dispatch=useDispatch();
+  const categories = useMemo(() => [
+          { name: 'Beauty', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1lgSdy3T6XFCNVEnUkvJir1QZK7nYHN9bA&s' },
+          { name: 'Fragrances', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjK0SQ6OmxPPr3Bgvb9aI0hsOxvW2yXN8I4g&s' },
+          { name: 'Furniture', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4l7w3GR0OjjlwzmWf3R0n9duY91137oxZAg&s' },
+          { name: 'Groceries', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHgG0y7gaDKqOOdNjpOne9wBZaYdV5o1JcWQ&s' },
+          { name: 'All Categories', img: 'https://th.bing.com/th/id/OIP.CifpG7TDeZ-69yeIHgarwgHaHa?w=163&h=180&c=7&r=0&o=7&pid=1.7&rm=3' },
+        ], []);
    // when data is fetched, add to redux store
   useEffect(() => {
     if (data?.products) {
@@ -43,13 +50,7 @@ export default function Home() {
       {/* Category Section */}
       <h2 className="text-center font-serif text-3xl mb-6 border-b border-gray-300 pb-2">Shop By Category</h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 justify-items-center mb-10">
-        {[
-          { name: 'Beauty', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1lgSdy3T6XFCNVEnUkvJir1QZK7nYHN9bA&s' },
-          { name: 'Fragrances', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjK0SQ6OmxPPr3Bgvb9aI0hsOxvW2yXN8I4g&s' },
-          { name: 'Furniture', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4l7w3GR0OjjlwzmWf3R0n9duY91137oxZAg&s' },
-          { name: 'Groceries', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHgG0y7gaDKqOOdNjpOne9wBZaYdV5o1JcWQ&s' },
-          { name: 'All Categories', img: 'https://th.bing.com/th/id/OIP.CifpG7TDeZ-69yeIHgarwgHaHa?w=163&h=180&c=7&r=0&o=7&pid=1.7&rm=3' },
-        ].map((cat) => (
+        {categories.map((cat) => (
           <div key={cat.name} className="text-center group">
             <Link to={`/category/${cat.name === 'All Categories' ? '' : cat.name.toLowerCase()}`}>
             {/*lazy loading images */}
@@ -66,7 +67,9 @@ export default function Home() {
 
       {/* Loading & Error */}
       {loading && <div className="text-center text-gray-500 text-lg">Loading...</div>}
-      {error && <Err/>}
+     {error && (<Suspense fallback={<div className="text-center text-gray-500">Loading Error...</div>}>
+    <Err /></Suspense>)}
+
 
       {/* Product Sections */}
       {!loading && !error && (
@@ -92,7 +95,6 @@ export default function Home() {
                           ₹{(item.price * (1 - item.discountPercentage / 100)).toFixed(2)}
                         </span>
                       </div>
-                      <span className="text-pink-600 text-sm font-medium">{item.discountPercentage}% Off</span>
                     </div>
                   </div>
                 </Link>

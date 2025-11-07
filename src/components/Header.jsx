@@ -47,11 +47,9 @@ export default function Header() {
       <RxHamburgerMenu/>
     </button>
           {/* 📋 Dropdown for Mobile */}
-    <div
-      className={`md:hidden absolute top-full right-4 bg-white border border-gray-200 rounded-lg shadow-lg z-50 transition-all duration-300 ease-in-out ${
-        click ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
-      }`}
-    >
+    <div className={`md:hidden absolute top-full right-4 bg-white border border-gray-200 rounded-lg shadow-lg z-50 transition-all duration-300 ease-in-out ${
+    click ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
+  }`}>
       <nav className="flex flex-col p-2.5 w-35">
         <Link to="/" className="no-underline text-gray-700 py-2 px-3 rounded-md hover:bg-indigo-50 hover:text-indigo-700"
           onClick={() => setclick(false)}>Home</Link>

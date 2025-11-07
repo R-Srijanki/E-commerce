@@ -3,7 +3,7 @@ import { MdOutlineAssignmentReturn } from "react-icons/md";
 import { RiSecurePaymentLine } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { increaseItems } from "../utils/cartSlice";
-import useFetchData from "../Hooks/useFetchdata";
+import useFetchData from "../Hooks/useFetchData";
 import { CgProfile } from "react-icons/cg";
 import { useState,useEffect } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";

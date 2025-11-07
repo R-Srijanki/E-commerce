@@ -1,10 +1,10 @@
 import { Link} from "react-router-dom";
-import { memo,useEffect,lazy } from "react";
+import { memo,useEffect,lazy,Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearchQuery } from "../utils/productSlice";
 //lazy load components
 const ProductItem = lazy(() => import("./ProductItem"));
-const Err=lazy(()=>import('./Err'));
+
 //memoize component
 const MemoizedProductItem = memo(ProductItem);
 
@@ -14,9 +14,13 @@ export default function Search({searchText}) {
 
   // Update search query whenever searchText changes
   useEffect(() => {
+   const timeout = setTimeout(() => {
     if (products.length > 0) {
       dispatch(setSearchQuery(searchText));
     }
+  }, 300); // 300ms delay
+
+  return () => clearTimeout(timeout);
   }, [dispatch, searchText, products]);
 
 //loading items
@@ -39,6 +43,7 @@ export default function Search({searchText}) {
         </p>
       </div>
     {/*products found then display productitem */}
+      <Suspense fallback={<div className="text-center text-gray-700">Loading results...</div>}>
       {filteredProducts.length > 0 ? (
         <div className="grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-items-center">
           {filteredProducts.map((item) => (
@@ -57,6 +62,7 @@ export default function Search({searchText}) {
           </Link>
         </div>
       )}
+      </Suspense>
     </div>
   );
 }
