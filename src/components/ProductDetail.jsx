@@ -7,7 +7,7 @@ import useFetchData from "../Hooks/useFetchData";
 import { CgProfile } from "react-icons/cg";
 import { useState,useEffect } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { lazy } from "react";
+import { Suspense, lazy } from "react";
 import { TiStar } from "react-icons/ti";
 //lazy load components
 const Err=lazy(()=>import("./Err"));
@@ -41,8 +41,10 @@ export default function ProductDetail() {
 
   if (error)
     return (
-      <Err/>
-    );
+    <Suspense fallback={<div>Loading error component...</div>}>
+      <Err />
+    </Suspense>
+  );
 
   if (!data) return null;
   //to dispatch action on click of add to cart button
@@ -70,10 +72,8 @@ export default function ProductDetail() {
             key={index}
             src={item}
             alt={`${data?.title} ${index}`}
-            className={`w-20 h-20 object-cover rounded-xl border-2 cursor-pointer ${
-              mainImg === item ? "border-blue-500" : "border-gray-200"
-            }`}
-            onMouseOver={() => setMainImg(item)}
+            className={`w-20 h-20 object-cover rounded-xl border-2 cursor-pointer ${mainImg === item ? "border-blue-500 ring-2 ring-blue-300" : "border-gray-200"}`}
+            onClick={() => setMainImg(item)}
           />
         ))}
       </div>
@@ -98,7 +98,7 @@ export default function ProductDetail() {
         </div>
 
         {/* Rating */}
-        <p className="text-sm font-bold flex" style={{color:data.rating>=4?"green":data.rating>=3?"orange":"red"}}><span className='mb-1 px-1 text-lg'><TiStar/></span> {data?.rating} / 5</p>
+        <p className={`text-sm font-bold flex ${ data.rating >= 4 ? "text-green-600" : data.rating >= 3  ? "text-orange-500"  : "text-red-500"}`}><span className='mb-1 px-1 text-lg'><TiStar/></span> {data?.rating} / 5</p>
 
         {/* Price Section */}
         <div className="flex items-baseline gap-3">
@@ -173,7 +173,7 @@ export default function ProductDetail() {
   <p className="text-gray-600 mb-4">Customer Reviews</p>
 
   <div className="space-y-4">
-    {data.reviews.map((item, index) => (//displays review line by line
+    {data?.reviews?.length > 0 ? (data.reviews.map((item, index) => (//displays review line by line
       <div
         key={index}
         className="bg-gray-100 p-4 rounded-lg shadow-sm hover:shadow-md transition-all"
@@ -188,7 +188,7 @@ export default function ProductDetail() {
         </p>
         <span className="block mt-2 text-gray-700">{item.comment}</span>
       </div>
-    ))}
+    ))):(<p className="text-gray-500">No reviews available yet.</p>)}
   </div>
 </div>
       </div>

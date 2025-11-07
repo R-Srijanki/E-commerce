@@ -10,12 +10,10 @@ export default function ProductItem({ item }) {
   const dispatch = useDispatch();//to dispatch action 
   const prod=useSelector((state)=>state.cart.items); //to access cart items from store
   const discountPrice = item.price * (1 - item.discountPercentage / 100);
-  const [quan,setquan] =useState(0); //to display quantity of item
-  useEffect(()=>{
-    const found=prod.find((val)=>val.id==item.id);
-    setquan(found?.quantity||0);
-  },[item,prod]) //if item added it is in cart so access quantity from it
-  //to increase cart item on click by dispatching action for first add
+  const quantity = useSelector(
+  (state) => state.cart.items.find((p) => p.id === item.id)?.quantity || 0
+);
+
   function handleAddToCart(item) {
     dispatch(increaseItems(item))
   }
@@ -40,9 +38,9 @@ export default function ProductItem({ item }) {
             className="rounded-xl h-[160px] w-full object-cover transition-transform duration-300 hover:scale-110"
           />{/*to display discount percent */}
           {item.discountPercentage > 0 && (
-            <span className="absolute top-2 left-2 bg-pink-600 text-white text-xs font-semibold px-2 py-1 rounded-full">
-              {item.discountPercentage}% OFF
-            </span>
+            <span className="absolute top-2 left-2 bg-gradient-to-r from-pink-500 to-red-500 text-white text-xs font-semibold px-2 py-1 rounded-full shadow-md">
+  {item.discountPercentage}% OFF
+</span>
           )}
         </div>
 
@@ -63,7 +61,7 @@ export default function ProductItem({ item }) {
 
       {/* Add to Cart Button */}
       <div className="text-center mt-4">
-       {quan==0?(<button
+       {quantity==0?(<button
           onClick={() => handleAddToCart(item)}
           className="cursor-pointer bg-pink-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-pink-700 transition-colors duration-300"
         >
@@ -78,7 +76,7 @@ export default function ProductItem({ item }) {
         </button>
         {/*to display total items selected */}
         <span className="px-3 py-1 border rounded-md text-gray-800 font-medium">
-          {quan}
+          {quantity}
         </span>
          {/*to increase product quantity by 1 */}
         <button

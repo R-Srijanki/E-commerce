@@ -19,9 +19,18 @@ const productSlice=createSlice({
     //search text add in variable and filter products based on it
     setSearchQuery: (state, action) => {
       state.searchQuery = action.payload;
-      state.filteredProducts = state.products.filter((item) =>
-        item.title.toLowerCase().includes(action.payload.toLowerCase())
-      );
+       if (!action.payload.trim()) {
+    state.filteredProducts = state.products;
+    return;
+  }
+      state.filteredProducts = state.products.filter((item) => {
+  const searchText = action.payload.toLowerCase();
+  return (
+    item.title.toLowerCase().includes(searchText) ||
+    item.brand?.toLowerCase().includes(searchText) ||
+    item.category?.toLowerCase().includes(searchText)
+  );
+});
     },
     //clear search
     clearSearch: (state) => {
