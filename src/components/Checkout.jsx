@@ -46,9 +46,9 @@ export default function Checkout() {
     const regexName = /^[A-Za-z]+(?: [A-Za-z]+)*$/;
     const regex = /^[A-Za-z]+$/;
 
-    if (!formData.name.trim() || !regexName.test(formData.nametrim()))
+    if (!formData.name.trim() || !regexName.test(formData.name.trim()))
       errors.name = "Enter valid name";
-    if (!formData.email.trim() || !regexMail.test(formData.emailtrim()))
+    if (!formData.email.trim() || !regexMail.test(formData.email.trim()))
       errors.email = "Enter valid email";
     if (!formData.address.trim()) errors.address = "Address is required";
     if (!formData.contact.trim() || !regexPhone.test(formData.contact))
@@ -96,7 +96,7 @@ export default function Checkout() {
     )}
     <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col lg:flex-row gap-10 min-h-screen overflow-auto">
       {/* Billing Form */}
-      <div className="w-full lg:w-2/3 bg-white shadow-md rounded-2xl p-6 border border-gray-100">
+      <div className="w-full lg:w-2/3 bg-white shadow-md h-fit rounded-2xl p-6 border border-gray-100">
         <h1 className="text-2xl font-semibold text-gray-800 mb-5">
           🧾 Billing Information
         </h1>
@@ -210,16 +210,20 @@ export default function Checkout() {
               {formErr.pincode && <p className="text-red-500 text-sm">{formErr.pincode}</p>}
             </div>
           {/*payment and error*/}
-          <select
-            id="cod"
-            onChange={handleChange}
-            value={formData.cod}
-            className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 col-span-2"
-          >
+          <div className="flex flex-col">
+               <label htmlFor="cod" className="mb-1 text-sm font-medium text-gray-700">
+                Payment Method
+              </label>
+              <select id="cod"
+                onChange={handleChange}
+                value={formData.cod}
+                 className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500">
             <option value="cod">Cash on Delivery</option>
             <option value="card">Credit / Debit Card</option>
             <option value="upi">UPI / Net Banking</option>
           </select>
+          </div>
+          
         {/*on click it places order if no error exits in form details */}
          {/* Submit Button */}
             <button
