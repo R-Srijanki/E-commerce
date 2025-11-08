@@ -13,7 +13,7 @@ export default function ProductItem({ item }) {
   const quantity = useSelector(
   (state) => state.cart.items.find((p) => p.id === item.id)?.quantity || 0
 );
-
+//to add item for firsttime
   function handleAddToCart(item) {
     dispatch(increaseItems(item))
   }

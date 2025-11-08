@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { clearCart } from "../utils/cartSlice";
 import { lazy,useMemo,useEffect,Suspense } from "react";
-
+//lazy load
 const CartItem = lazy(()=>import("./CartItem"));
 
 export default function Cart() {

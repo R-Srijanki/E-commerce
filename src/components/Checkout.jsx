@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { clearCart } from "../utils/cartSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 
 export default function Checkout() {
   const cart = useSelector((store) => store.cart); //to get cart details from store
@@ -25,7 +25,7 @@ export default function Checkout() {
   // Calculate totals
   const subtotal = cart.items.reduce(
     (total, item) =>
-      total + item.price * (1 - item.discountPercentage / 100) * item.quantity,
+      total + ((item.price * (1 - item.discountPercentage / 100)) * item.quantity),
     0
   );
   //variables for shipping,discount,total 
@@ -72,21 +72,31 @@ export default function Checkout() {
 
   //no error then show message
     setSuccessMsg("✅ Order placed successfully! Redirecting...");
-    //to clear cart action
-    dispatch(clearCart());
+    
   }
   useEffect(() => {
     if (!successMsg) return; // only run when there's a message
 //after 3s return to home page
     const timer = setTimeout(() => {
       setSuccessMsg("");
+      //to clear cart action
+    dispatch(clearCart());
       navigate("/");
     }, 3000);
 //clean-up function
     return () => clearTimeout(timer);
   }, [successMsg, navigate]);
-  
-  return (
+
+ 
+  return (<div className="min-h-screen">
+    {cart.items.length === 0 ? ( 
+        <div className="text-center text-gray-600 mt-10">
+          <p className="text-lg">🛒 Your cart is empty.</p>
+          <Link to="/" className="mt-4 inline-block px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+            Continue Shopping
+          </Link>
+        </div>
+      ):(
     <>
     {/* ✅ Floating success message */}
       {successMsg && (
@@ -287,6 +297,8 @@ export default function Checkout() {
         )}
       </div>
     </div>
-    </>
+    </>)}
+    </div>
   );
+  
 }

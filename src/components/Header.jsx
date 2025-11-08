@@ -3,6 +3,7 @@ import { FaShopify } from "react-icons/fa";
 import { RiBillLine } from "react-icons/ri";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { AiTwotoneHome } from "react-icons/ai";
+//react icons
 import { Link} from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useState } from "react";
