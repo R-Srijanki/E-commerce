@@ -49,19 +49,19 @@ Tailwind utilities like grid-cols-1 md:grid-cols-2 lg:grid-cols-4 used for adapt
 
 ## ⚙️ Installation & Setup
 
-# Clone the repository
+* Clone the repository
 ```bash
 git clone https://github.com/R-Srijanki/E-commerce.git
 ```
-# Navigate into the folder
+* Navigate into the folder
 ```bash
 cd E-commerce
 ```
-# Install dependencies
+* Install dependencies
 ```bash
 npm install
 ```
-# Run the development server
+* Run the development server
 ```bash
 npm run dev
 ``` 
