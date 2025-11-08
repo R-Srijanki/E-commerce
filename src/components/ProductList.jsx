@@ -96,9 +96,7 @@ export default function ProductList() {
       {/* Product Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-items-center">
         {productsToShow.map((item) => (
-          
-            <MemoizedProductItem item={item} key={item.id}/>
-          
+          <MemoizedProductItem item={item} key={item.id}/>
         ))}
       </div>
       </div>
